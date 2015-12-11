@@ -7,6 +7,18 @@
 * python 2.7
 * django 1.8
 
+## 技术栈
+
+* 前端：
+    * jquery, vue.js, underscore
+    * adminlte 开源前端模板
+    
+* 后端
+    * django
+    * django-rest-framework
+    * django-mptt
+    * django-registration
+    
 
 ## 准备工作：
 
