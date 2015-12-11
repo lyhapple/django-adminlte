@@ -7,6 +7,18 @@
 * python 2.7
 * django 1.8
 
+## 技术栈
+
+* 前端：
+    * jquery, vue.js, underscore
+    * adminlte 开源前端模板
+    
+* 后端
+    * django
+    * django-rest-framework
+    * django-mptt
+    * django-registration
+    
 
 ## 准备工作：
 
@@ -23,3 +35,7 @@
     2.cd django-adminlte
     3.pip install -r requirement.txt
     4.python manage_dev runserver
+
+## 开发者文档
+
+请参考 docs/develop.md
