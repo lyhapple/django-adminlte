@@ -23,3 +23,7 @@
     2.cd django-adminlte
     3.pip install -r requirement.txt
     4.python manage_dev runserver
+
+## 开发者文档
+
+请参考 docs/develop.md
