@@ -1,0 +1,29 @@
+<header class="main-header">
+    {% block branding %}
+        <a href="#" class="logo">
+            <span class="logo-mini">{{ page_system_name|first }}</span>
+            <span class="logo-lg">{{ page_system_name }}</span>
+        </a>
+    {% endblock %}
+
+    <nav class="navbar navbar-static-top" role="navigation">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">切换菜单</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav" id="messagesetVue">
+                {% include "adminlte/includes/header_sitemails.html" %}
+
+                {% include "adminlte/includes/header_notifications.html" %}
+
+                {% include "adminlte/includes/header_tasks.html" %}
+
+                {% include "adminlte/includes/header_account.html" %}
+{#                <li>#}
+{#                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>#}
+{#                </li>#}
+            </ul>
+        </div>
+    </nav>
+</header>

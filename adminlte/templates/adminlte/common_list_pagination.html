@@ -1,0 +1,47 @@
+<ul class="pagination pagination-sm no-margin pull-right">
+    <li v-if="totalPage > 1">
+        <a href="javascript:void(0);"
+           page="1" v-on:click="page">首页</a>
+    </li>
+    <template v-if="totalPage == 1">
+        <li class="disabled">
+            <a href="javascript:void(0);">首页</a>
+        </li>
+    </template>
+    <li v-if="currentPage > 1">
+        <a href="javascript:void(0);"
+           page="#[currentPage-1]"
+           v-on:click="page">
+            上页</a>
+    </li>
+    <template v-if="currentPage == 1">
+        <li class="disabled">
+            <a href="javascript:void(0);">上页</a>
+        </li>
+    </template>
+    <li v-if="currentPage < totalPage">
+        <a href="javascript:void(0);"
+           page="#[currentPage+1]"
+           v-on:click="page">
+            下页</a>
+    </li>
+    <template v-if="currentPage == totalPage">
+        <li class="disabled">
+            <a href="javascript:void(0);">下页</a>
+        </li>
+    </template>
+    <li v-if="totalPage > 1">
+        <a href="javascript:void(0);"
+           page="#[totalPage]"
+           v-on:click="page">末页</a>
+    </li>
+    <template v-if="totalPage == 1">
+        <li class="disabled">
+            <a href="javascript:void(0);">末页</a>
+        </li>
+    </template>
+</ul>
+<div class="pull-right" style="line-height: 29px;">
+    共 #[count] 条数据, 每页 #[perPage] 条,
+    #[currentPage]/#[totalPage]&nbsp;&nbsp;
+</div>

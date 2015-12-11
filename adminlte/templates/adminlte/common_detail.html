@@ -1,0 +1,27 @@
+{% extends "adminlte/base.html" %}
+{% load adminlte_tags %}
+
+{% block content_title %}
+    {{ page_title }}详情
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body table-responsive no-padding">
+                    {% for field in object.Config.list_form_fields %}
+                        <table class="table">
+                        {% ifnotequal field 'id' %}
+                            <tr>
+                                <th style="width:100px;">{{ object|render_field_label:field }}:</th>
+                                <td>{{ object|render_field_value:field|safe }}</td>
+                            </tr>
+                        {% endifnotequal %}
+                        </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

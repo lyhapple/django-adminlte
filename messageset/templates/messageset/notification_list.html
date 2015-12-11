@@ -1,0 +1,10 @@
+{% extends "adminlte/common_list.html" %}
+{% load static %}
+
+{% block common_list_buttons %}
+    <button class="btn btn-danger"
+            v-on:click="removeSelected">
+        <i class="fa fa-trash-o"></i>
+        删除
+    </button>
+{% endblock %}

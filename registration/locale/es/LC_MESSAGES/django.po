@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: easy-registration 0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-30 03:34+0100\n"
+"PO-Revision-Date: 2013-12-30 03:39+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: hcosta.info <hcostaguzman@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+"X-Generator: Poedit 1.6.3\n"
+
+#: .\forms.py:19
+msgid "Account already exists."
+msgstr "Esta cuenta ya existe."
+
+#: .\forms.py:24
+msgid "Passwords don't match."
+msgstr "Las contraseñas no concuerdan."
+
+#: .\templates\registration\login.html:5
+#: .\templates\registration\login.html:12
+#: .\templates\registration\login.html:18
+msgid "Sign in"
+msgstr "Inicio de sesión"
+
+#: .\templates\registration\login.html:14
+msgid "User or password don't match."
+msgstr "El usuario o la contraseña no concuerdan."
+
+#: .\templates\registration\login.html:16
+#: .\templates\registration\register.html:16
+msgid "User"
+msgstr "Usuario"
+
+#: .\templates\registration\login.html:17
+#: .\templates\registration\register.html:18
+msgid "Password"
+msgstr "Contraseña"
+
+#: .\templates\registration\login.html:19
+msgid "Don't have an account?"
+msgstr "¿Todavía no tienes cuenta?"
+
+#: .\templates\registration\login.html:19
+msgid "Sign up here"
+msgstr "Regístrate aquí"
+
+#: .\templates\registration\register.html:5
+#: .\templates\registration\register.html:12
+msgid "Sign up"
+msgstr "Registro de usuario"
+
+#: .\templates\registration\register.html:14
+msgid "Check the red fields."
+msgstr "Comprueba los campos en rojo."
+
+#: .\templates\registration\register.html:17
+msgid "Email Address"
+msgstr "Correo electrónico"
+
+#: .\templates\registration\register.html:19
+msgid "Confirm your password"
+msgstr "Confirma tu contraseña"
+
+#: .\templates\registration\register.html:20
+msgid "Create an account"
+msgstr "Crear una cuenta"
+
+#: .\templates\registration\register.html:21
+msgid "Do you have an account?"
+msgstr "¿Ya tienes cuenta? "
+
+#: .\templates\registration\register.html:21
+#: .\templates\registration\success.html:12
+msgid "Sign in here"
+msgstr "Inicia sesión aquí"

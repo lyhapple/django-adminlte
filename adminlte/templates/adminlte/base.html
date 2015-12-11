@@ -1,0 +1,88 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block base_head_title %}{{ page_title }}{% endblock %} |
+        {% block base_head_title_system_name %}{{ page_system_name }}{% endblock %}
+    </title>
+    <link rel="shortcut icon" href="{{ STATIC_PREFIX }}images/favicon.ico">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    {% block blockrobots %}
+    {% endblock %}
+    {% include "adminlte/includes/style.html" %}
+    {% block base_head_style %}
+    {% endblock %}
+    <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+{% block base_body %}
+    <body class="{% block base_body_class %}skin-blue sidebar-mini{% endblock %}">
+    {% block base_body_inner %}
+        <div class="wrapper">
+            {% include "adminlte/includes/header.html" %}
+
+            {% include "adminlte/includes/menu.html" %}
+
+            <div class="content-wrapper">
+                {% block base_content_wrapper_inner %}
+                    <section class="content-header">
+                        {% block base_content_header %}
+                            <h1>
+                                {% block content_title %}
+                                    {{ default_dashboard_title }}
+                                {% endblock %}
+                                <small>
+                                    {% block base_content_header_small_title %}
+                                    {% endblock %}
+                                </small>
+                            </h1>
+
+                            {% block breadcrumb %}
+                                <ol class="breadcrumb">
+                                    <li>
+                                        <a href="/">
+                                            <i class="fa fa-dashboard"></i> {{ default_dashboard_title }}
+                                        </a>
+                                    </li>
+                                    {% if page_title != default_dashboard_title %}
+                                    <li class="active">
+                                        {% if page_app_name and page_model_name %}
+                                            <a href="{% url 'adminlte:common_list_page' page_app_name page_model_name %}">
+                                                {{ page_title }}
+                                            </a>
+                                        {% else %}
+                                            {{ page_title }}
+                                        {% endif %}
+                                        </li>
+                                    {% endif %}
+                                    {% if object != None %}
+                                        <li class="active">{{ page_title }}详情</li>
+                                    {% endif %}
+                                </ol>
+                            {% endblock %}
+                        {% endblock %}
+                    </section>
+                    <section class="content">
+                        {% block content %}
+                            {{ content }}
+                        {% endblock %}
+                    </section>
+                {% endblock %}
+            </div>
+            {% include "adminlte/includes/footer.html" %}
+            {% include "adminlte/includes/control_sidebar.html" %}
+        </div>
+    {% endblock %}
+
+    {% include "adminlte/includes/footer_script.html" %}
+    {% block base_foot_script %}
+    {% endblock %}
+    {% block base_foot_page_script %}
+    {% endblock %}
+    </body>
+{% endblock %}
+</html>

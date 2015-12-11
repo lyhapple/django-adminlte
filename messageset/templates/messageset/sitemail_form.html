@@ -1,0 +1,57 @@
+{% extends "adminlte/base.html" %}
+
+{% block content_title %}
+    发送{{ page_title }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if form.is_multipart %}
+                                <form enctype="multipart/form-data"
+                                      method="post"
+                                      action=""
+                                      role="form" id="commonForm">
+                            {% else %}
+                                <form method="post" action=""
+                                      role="form" id="commonForm">
+                            {% endif %}
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% if field.name == 'sender' %}
+                                    <input id="id_sender" name="sender"
+                                           type="hidden"
+                                           value="{{ request.user.id }}">
+                                {% else %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                        <p class="help-block">{{ field.help_text }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="clearfix"></div>
+                            <button type="submit" class="btn btn-primary">
+                                保 存
+                            </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block base_foot_script %}
+    <script type="text/javascript">
+        $('#commonForm input:text').addClass('form-control');
+        $('#commonForm select').addClass('form-control');
+        $("#commonForm select > option[value='{{ request.user.id }}']").remove();
+        $('#commonForm textarea').addClass('form-control');
+    </script>
+{% endblock %}

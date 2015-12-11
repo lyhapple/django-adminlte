@@ -1,0 +1,1 @@
+var commonListPageVue = new CommonListPageVue();

@@ -1,0 +1,48 @@
+<!-- Tasks Menu -->
+<li class="dropdown tasks-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <template v-if="task | length > 0">
+            <span class="label label-success">
+            #[ task | length]
+            </span>
+        </template>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header">
+            您有 #[ task | length ] 个正在处理的任务
+        </li>
+        <li>
+            <ul class="menu">
+                <template v-for="item in task">
+                    <li>
+                        <a href="javascript:void(0);" data-pk="#[item.id]"
+                                v-on:click="taskDetail">
+                            <h3 data-pk="#[item.id]">
+                                #[item.name]
+                                <small class="pull-right">
+                                    #[item.percent]
+                                </small>
+                            </h3>
+                            <div class="progress xs" data-pk="#[item.id]">
+                                <div class="progress-bar progress-bar-aqua"
+                                     style="width:#[item.percent]"
+                                     role="progressbar"
+                                     aria-valuenow="#[item.percent|replace '%' '']"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100">
+                                    <span class="sr-only">#[item.percent]</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </template>
+            </ul>
+        </li>
+        <li class="footer">
+            <a href="{% url 'adminlte:common_list_page' 'messageset' 'task'%}">
+                查看所有任务
+            </a>
+        </li>
+    </ul>
+</li>

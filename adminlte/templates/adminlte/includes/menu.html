@@ -1,0 +1,45 @@
+{% load mptt_tags %}
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="header">HEADER</li>
+            <li {% if request.path_info == '/' %}class="active"{% endif %}>
+                <a href="/">
+                    <i class="fa fa-dashboard"></i>
+                    <span>{{ default_dashboard_title }}</span>
+                </a>
+            </li>
+            {% recursetree page_menus %}
+                <li {% if not node.is_leaf_node %}
+                        class="treeview {% if node.app_name in request.path_info %} active{% endif %}"
+                    {% endif %}>
+                    {% if not node.is_leaf_node %}
+                        <a href="javascript:void(0)">
+                            <i class='fa {{ node.icon }}'></i>
+                            <span>{{ node.name }}</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            {{ children }}
+                        </ul>
+                    {% else %}
+                        {% with node.url as menu_url %}
+                            {% if not menu_url %}
+                                {% url 'adminlte:common_list_page' node.app_name node.model_name as menu_url %}
+                            {% endif %}
+                            <li {% if menu_url == request.path_info %}
+                                    class='active'
+                                {% endif %}>
+                                <a href="{{ menu_url }}">
+                                    <i class="fa {{ node.icon }}"></i>
+                                    {{ node.name }}
+                                </a>
+                            </li>
+                        {% endwith %}
+
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+    </section>
+</aside>
