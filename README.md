@@ -42,6 +42,9 @@
 
 请参考 docs/develop.md
 
+如需fork，请使用develop分支，并向该分支提交 pull request。
+
+
 ### 使用
 
 1.管理员及密码为 admin
