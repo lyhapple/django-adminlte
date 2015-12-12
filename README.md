@@ -36,6 +36,18 @@
     3.pip install -r requirement.txt
     4.python manage_dev runserver
 
-## 开发者文档
+## 开发与使用
+
+### 开发者文档
 
 请参考 docs/develop.md
+
+### 使用
+
+1.管理员及密码为 admin
+
+2.django自带后台地址为: /admin/
+
+3.写好Model 与 serializer 类之后，可以通过菜单管理页面，增加管理入口，
+  比如，创建了名为demo的app, 然后新增了一个Product Model, 
+  再新增一个ProductSerializer类, 最后即可在菜单管理页面增加对Product数据的管理入口
