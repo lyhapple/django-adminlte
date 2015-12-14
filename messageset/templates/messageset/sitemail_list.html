@@ -118,9 +118,19 @@
                                                 操作
                                             </th>
                                         {% else %}
-                                            <th>
-                                                {{ title }}
-                                            </th>
+                                            {% if title == '发件人' %}
+                                                <th v-show="showBox == 'in'">
+                                                    {{ title }}
+                                                </th>
+                                            {% elif title == '收件人' %}
+                                                <th v-show="showBox == 'send'">
+                                                    {{ title }}
+                                                </th>
+                                            {% else %}
+                                                <th>
+                                                    {{ title }}
+                                                </th>
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </tr>
@@ -150,9 +160,19 @@
                                                     </a>
                                                 </td>
                                             {% else %}
-                                                <td>
-                                                    {!! item.{{ field }} !!}
-                                                </td>
+                                                {% if field == 'sender' %}
+                                                    <td v-show="showBox == 'in'">
+                                                        {!! item.{{ field }} !!}
+                                                    </td>
+                                                {% elif field == 'receiver' %}
+                                                    <td v-show="showBox == 'send'">
+                                                        {!! item.{{ field }} !!}
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        {!! item.{{ field }} !!}
+                                                    </td>
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </tr>

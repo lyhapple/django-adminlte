@@ -8,6 +8,7 @@ __author__ = 'lyhapple'
 
 class SiteMailSerializer(serializers.ModelSerializer):
     sender = serializers.CharField(source='sender.username')
+    receiver = serializers.CharField(source='receiver.username')
     status = serializers.SerializerMethodField()
     status_value = serializers.IntegerField(source='status')
     sender_avatar = serializers.SerializerMethodField()
