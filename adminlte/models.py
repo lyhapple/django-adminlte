@@ -85,6 +85,10 @@ class Menu(MPTTModel, BaseModel, UsableStatus):
         list_form_fields = ('parent',) + list_display_fields
         search_fields = ('name', 'app_name', 'model_name', 'icon')
 
+        @classmethod
+        def filter_queryset(cls, request, queryset):
+            return queryset.filter(status=Menu.USABLE)
+
 
 class Resource(BaseModel):
     name = models.CharField(u'资源名称', max_length=50)
