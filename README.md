@@ -34,7 +34,8 @@
     1.git clone git@github.com:lyhapple/django-adminlte.git
     2.cd django-adminlte
     3.pip install -r requirement.txt
-    4.python manage_dev.py runserver
+    4.python manage_dev.py migrate
+    5.python manage_dev.py runserver
 
 ## 开发与使用
 
