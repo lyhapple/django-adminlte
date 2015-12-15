@@ -4,14 +4,20 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from adminlte.views import IndexView
+from adminlte.views import IndexView, ChangePasswordView, \
+    ChangePasswordDoneView
 
 
 # 基础 url
 urlpatterns = [
+    url('^page/change-password/$', ChangePasswordView.as_view(),
+        name='change_password'),
+    url('^page/change-password-done/$', ChangePasswordDoneView.as_view(),
+        name='password_change_done'),
+
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', login_required(IndexView.as_view())),
+    url(r'^$', login_required(IndexView.as_view()), name='index'),
 
     url(r'^auth/', include("registration.urls", namespace="registration")),
 
