@@ -21,6 +21,7 @@ class ApiPermissionCheck(object):
 
             if request.path_info not in resources:
                 return HttpResponse(status=403)
+        pass
 
 
 class MenuMiddleware(object):
@@ -28,7 +29,7 @@ class MenuMiddleware(object):
         # todo: cache
         if request.path_info.startswith('/page/') or request.path_info == '/':
             if request.user.is_superuser:
-                page_menus = Menu.objects.all()
+                page_menus = Menu.objects.filter(status=Menu.USABLE)
             else:
                 groups = request.user.groups.all()
                 permission = Permission.objects.filter(

@@ -5,7 +5,8 @@
 var sitemailListPageVue = new CommonListPageVue({
     el: '#siteMailContentRow',
     data: {
-        unReadItemsCount: 0
+        unReadItemsCount: 0,
+        showBox: 'in'
     },
     ready: function () {
         if (this.appName && this.modelName) {
@@ -16,11 +17,13 @@ var sitemailListPageVue = new CommonListPageVue({
         inBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
+            this.showBox = 'in';
             this.loadData({'receiver': true});
         },
         sendBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
+            this.showBox = 'send';
             this.loadData({'sender': true});
         },
         trashBox: function(event){

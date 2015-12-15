@@ -32,7 +32,7 @@ class SiteMail(BaseModel, MailStatus):
     class Config:
         list_template_name = 'messageset/sitemail_list.html'
         form_template_name = 'messageset/sitemail_form.html'
-        list_display_fields = ('title', 'sender',
+        list_display_fields = ('title', 'sender', 'receiver',
                                'status', 'send_time', 'id')
         list_form_fields = ('title', 'sender', 'receiver', 'contents')
         filter_fields = ('status', )

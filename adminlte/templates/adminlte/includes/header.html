@@ -1,6 +1,6 @@
 <header class="main-header">
     {% block branding %}
-        <a href="#" class="logo">
+        <a href="{% url 'index' %}" class="logo">
             <span class="logo-mini">{{ page_system_name|first }}</span>
             <span class="logo-lg">{{ page_system_name }}</span>
         </a>
@@ -13,11 +13,11 @@
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav" id="messagesetVue">
-                {% include "adminlte/includes/header_sitemails.html" %}
+                {% comment %}{% include "adminlte/includes/header_sitemails.html" %}
 
                 {% include "adminlte/includes/header_notifications.html" %}
 
-                {% include "adminlte/includes/header_tasks.html" %}
+                {% include "adminlte/includes/header_tasks.html" %}{% endcomment %}
 
                 {% include "adminlte/includes/header_account.html" %}
 {#                <li>#}
