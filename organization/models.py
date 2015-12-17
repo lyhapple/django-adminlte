@@ -127,9 +127,8 @@ class Staff(BaseModel, UsableStatus):
         **DICT_NULL_BLANK_TRUE
     )
 
-
     def __unicode__(self):
-        return u'%s-%s' % (self.department, self.login_name)
+        return u'%s-%s' % (self.department, self.real_name)
 
     class Meta:
         verbose_name_plural = verbose_name = u'员工'

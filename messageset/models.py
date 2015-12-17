@@ -3,8 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.db import models
-from django.db.models import Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from adminlte.constants import ReadStatus, TaskStatus, MailStatus, \
     UsableStatus, \
@@ -194,6 +193,18 @@ class NotificationContent(AbstractMessageContent):
     def __unicode__(self):
         return self.title
 
+    class Config:
+        success_url = reverse_lazy(
+            'adminlte:common_list_page',
+            kwargs={
+                'app_name': 'messageset',
+                'model_name': 'notification'
+            }
+        )
+        list_form_fields = (
+            'title', 'contents', 'receivers'
+        )
+
 
 class Notification(BaseModel, ReadStatus):
     title = models.CharField(
@@ -313,7 +324,7 @@ class Task(BaseModel, TaskStatus):
             )
 
 
-@receiver(post_save, sender=SiteMailContent)
+@receiver(m2m_changed, sender=SiteMailContent.receivers.through)
 def create_sitemail_datas(sender, instance, **kwargs):
     """
     发送邮件时，向收件箱和发件箱添加数据，
@@ -337,7 +348,7 @@ def create_sitemail_datas(sender, instance, **kwargs):
         SiteMailReceive(**tmp_kwargs).save()
 
 
-@receiver(post_save, sender=NotificationContent)
+@receiver(m2m_changed, sender=NotificationContent.receivers.through)
 def create_notification_datas(sender, instance, **kwargs):
     """
     保存系统通知时，给所选用户发送通知，

@@ -28,10 +28,14 @@ var CommonListPageVue = Vue.extend({
                 $(event.target).data('pk')
             );
         },
-        create: function () {
+        create: function (modelName, event) {
+            var name = this.modelName;
+            if(modelName){
+                name = modelName;
+            }
             window.location.href = Urls['adminlte:common_create_page'](
                 this.appName,
-                this.modelName
+                name
             );
         },
         update: function (event) {
