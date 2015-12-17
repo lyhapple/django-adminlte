@@ -7,9 +7,7 @@ from django.http import JsonResponse
 from django.views.generic import ListView, CreateView, \
     UpdateView, DeleteView, TemplateView, DetailView
 from adminlte import constants
-from adminlte.models import Menu, SystemConfig, Permission
-from lteadmin import settings
-from messageset.models import Notification, Task
+from adminlte.models import SystemConfig
 from organization.models import Staff
 
 __author__ = 'lyhapple'
