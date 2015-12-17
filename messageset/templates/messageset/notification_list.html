@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block common_list_buttons %}
+    {% if request.user and request.user.is_superuser %}
+        <button class="btn btn-primary"
+            v-on:click="create('notificationcontent')">
+        <i class="fa fa-plus"></i>
+        发布新通知
+    </button>
+    {% endif %}
     <button class="btn btn-danger"
             v-on:click="removeSelected">
         <i class="fa fa-trash-o"></i>

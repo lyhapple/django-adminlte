@@ -1,1 +1,7 @@
-var commonListPageVue = new CommonListPageVue();
+var commonListPageVue = new CommonListPageVue({
+    ready: function () {
+        if (this.appName && this.modelName) {
+            this.loadData({});
+        }
+    }
+});

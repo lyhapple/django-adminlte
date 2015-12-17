@@ -1,10 +1,31 @@
 {% extends "adminlte/common_list.html" %}
 {% load static %}
 
+{% block content_title %}
+    站内信
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li>
+            <a href="/">
+                <i class="fa fa-dashboard"></i> {{ default_dashboard_title }}
+            </a>
+        </li>
+        {% if page_title != default_dashboard_title %}
+            <li class="active">
+                <a href="{% url 'adminlte:common_list_page' page_app_name 'sitemailreceive' %}">
+                    站内信
+                </a>
+            </li>
+        {% endif %}
+    </ol>
+{% endblock %}
+
 {% block content %}
     <div class="row" id="siteMailContentRow">
         <div class="col-md-3">
-            <a href="javascript:void(0);" v-on:click="create"
+            <a href="javascript:void(0);" v-on:click="newMail"
                class="btn btn-primary btn-block margin-bottom">
                 <i class="fa fa-pencil"></i> 写信</a>
 
@@ -24,7 +45,7 @@
                             <a href="javascript:void(0);" v-on:click="inBox">
                                 <i class="fa fa-inbox"></i> 收件箱
                                 <span v-if="unReadItemsCount > 0"
-                                    class="label label-primary pull-right">
+                                      class="label label-primary pull-right">
                                     #[unReadItemsCount]
                                 </span>
                             </a>
@@ -34,16 +55,16 @@
                                 <i class="fa fa-envelope-o"></i> 发件箱
                             </a>
                         </li>
-{#                        <li>#}
-{#                            <a href="#">#}
-{#                                <i class="fa fa-file-text-o"></i> 草稿箱#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li>#}
-{#                            <a href="javascript:void(0);" v-on:click="trashBox">#}
-{#                                <i class="fa fa-trash-o"></i> 垃圾箱#}
-{#                            </a>#}
-{#                        </li>#}
+                        {#                        <li>#}
+                        {#                            <a href="#">#}
+                        {#                                <i class="fa fa-file-text-o"></i> 草稿箱#}
+                        {#                            </a>#}
+                        {#                        </li>#}
+                        {#                        <li>#}
+                        {#                            <a href="javascript:void(0);" v-on:click="trashBox">#}
+                        {#                                <i class="fa fa-trash-o"></i> 垃圾箱#}
+                        {#                            </a>#}
+                        {#                        </li>#}
                     </ul>
                 </div>
             </div>
@@ -70,6 +91,14 @@
                                         v-on:click="markAllRead">
                                     标记为已读
                                 </button>{% endcomment %}
+                                <div class="checkbox pull-left btn-link"
+                                     style="margin-top: 7px; margin-right: 12px;">
+                                    <label>
+                                        <input type="checkbox"
+                                               name="checkboxAllRow"
+                                               v-on:click="toggleAllBox"/> 全选
+                                    </label>
+                                </div>
                                 <button class="btn btn-link"
                                         v-on:click="removeSelected">
                                     <i class="fa fa-trash-o"></i>
@@ -82,7 +111,7 @@
                                            id="tableSearch"
                                            class="form-control input-sm pull-right"
                                            style="width: 150px;"
-                                           placeholder="邮件关键字"
+                                           placeholder="邮件标题关键字"
                                            v-on:keypress.13="search">
 
                                     <div class="input-group-btn">
@@ -103,42 +132,8 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover" id="commonTable">
                             <tbody>
-                                <tr>
-                                    <th style="width:30px;">
-                                        #
-                                    </th>
-                                    <th style="text-align: center;width:40px;">
-                                        <input type="checkbox"
-                                               name="checkboxAllRow"
-                                               v-on:click="toggleAllBox"/>
-                                    </th>
-                                    {% for title in table_titles %}
-                                        {% if title == 'ID' %}
-                                            <th>
-                                                操作
-                                            </th>
-                                        {% else %}
-                                            {% if title == '发件人' %}
-                                                <th v-show="showBox == 'in'">
-                                                    {{ title }}
-                                                </th>
-                                            {% elif title == '收件人' %}
-                                                <th v-show="showBox == 'send'">
-                                                    {{ title }}
-                                                </th>
-                                            {% else %}
-                                                <th>
-                                                    {{ title }}
-                                                </th>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
                                 <template v-for="item in items">
                                     <tr>
-                                        <td style="width:30px;">
-                                            #[$index+1]
-                                        </td>
                                         <td style="width:40px;text-align:center">
                                             <input type="checkbox"
                                                    class="minimal"
@@ -160,22 +155,13 @@
                                                     </a>
                                                 </td>
                                             {% else %}
-                                                {% if field == 'sender' %}
-                                                    <td v-show="showBox == 'in'">
-                                                        {!! item.{{ field }} !!}
-                                                    </td>
-                                                {% elif field == 'receiver' %}
-                                                    <td v-show="showBox == 'send'">
-                                                        {!! item.{{ field }} !!}
-                                                    </td>
-                                                {% else %}
-                                                    <td>
-                                                        {!! item.{{ field }} !!}
-                                                    </td>
-                                                {% endif %}
+                                                <td>
+                                                    {!! item.{{ field }} !!}
+                                                </td>
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
+                                </template>
                                 </template>
                             </tbody>
                         </table>

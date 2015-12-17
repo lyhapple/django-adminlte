@@ -124,21 +124,23 @@ class CommonFormPageMixin(CommonPageViewMixin):
         self.app_name, self.model_name = get_app_model_name(kwargs)
         model_type = get_model_content_type(self.app_name, self.model_name)
         self.model = model_type.model_class()
-        self.fields = self.model.Config.list_form_fields
-        self.success_url = reverse(
-            'adminlte:common_list_page',
-            kwargs={
-                'app_name': self.app_name,
-                'model_name': self.model_name
-            }
-        )
+        self.fields = getattr(self.model.Config, 'list_form_fields', ())
+        if hasattr(self.model.Config, 'success_url'):
+            self.success_url = self.model.Config.success_url
+        else:
+            self.success_url = reverse(
+                'adminlte:common_list_page',
+                kwargs={
+                    'app_name': self.app_name,
+                    'model_name': self.model_name
+                }
+            )
         if hasattr(self.model.Config, 'form_template_name'):
             self.template_name = getattr(self.model.Config,
                                          'form_template_name')
 
 
 class CommonCreatePageView(CommonFormPageMixin, CreateView):
-
     def get(self, request, *args, **kwargs):
         self.object = None
         self.set_form_page_attributes(*args, **kwargs)
@@ -148,7 +150,7 @@ class CommonCreatePageView(CommonFormPageMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CommonCreatePageView, self).form_valid(form)
-    
+
     def post(self, request, *args, **kwargs):
         self.set_form_page_attributes(*args, **kwargs)
         return super(CommonCreatePageView, self).post(request, *args, **kwargs)
@@ -162,7 +164,7 @@ class CommonDetailPageView(CommonPageViewMixin, DetailView):
         model_type = get_model_content_type(self.app_name, self.model_name)
         self.model = model_type.model_class()
         if hasattr(self.model.Config, 'detail_template_name'):
-            self.template_name = self.model.Config.list_template_name
+            self.template_name = self.model.Config.detail_template_name
         return super(CommonDetailPageView, self).get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):

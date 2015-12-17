@@ -14,11 +14,6 @@ var CommonListPageVue = Vue.extend({
             count: 0
         }
     },
-    ready: function () {
-        if(this.appName && this.modelName){
-            this.loadData({});
-        }
-    },
     methods: {
         toggleAllBox: function (event) {
             $("input[name='checkboxRow']").prop(
@@ -33,10 +28,14 @@ var CommonListPageVue = Vue.extend({
                 $(event.target).data('pk')
             );
         },
-        create: function () {
+        create: function (modelName, event) {
+            var name = this.modelName;
+            if(modelName){
+                name = modelName;
+            }
             window.location.href = Urls['adminlte:common_create_page'](
                 this.appName,
-                this.modelName
+                name
             );
         },
         update: function (event) {

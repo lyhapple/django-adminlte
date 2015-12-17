@@ -1,13 +1,12 @@
 # coding=utf-8
 from rest_framework import serializers
-from .models import Task, Notification, SiteMail
+from .models import Task, Notification, SiteMailReceive, SiteMailSend
 
 __author__ = 'lyhapple'
 
 
-class SiteMailSerializer(serializers.ModelSerializer):
+class SiteMailReceiveSerializer(serializers.ModelSerializer):
     sender = serializers.CharField(source='sender.username')
-    receiver = serializers.CharField(source='receiver.username')
     status = serializers.SerializerMethodField()
     status_value = serializers.IntegerField(source='status')
     sender_avatar = serializers.SerializerMethodField()
@@ -19,12 +18,21 @@ class SiteMailSerializer(serializers.ModelSerializer):
         return obj.sender.staff_of.avatar.url
 
     class Meta:
-        model = SiteMail
-        fields = SiteMail.Config.list_display_fields + (
+        model = SiteMailReceive
+        fields = SiteMailReceive.Config.list_display_fields + (
             'sender_avatar', 'status_value'
         )
         read_only_fields = (
             'id', 'send_time', 'sender_avatar', 'status_value'
+        )
+
+
+class SiteMailSendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SiteMailSend
+        fields = SiteMailSend.Config.list_display_fields
+        read_only_fields = (
+            'id', 'send_time'
         )
 
 
