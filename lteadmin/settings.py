@@ -122,8 +122,9 @@ DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 STATIC_URL = '/static/'
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'adminlte', 'static/')
+    # STATIC_ROOT = os.path.join(BASE_DIR, 'adminlte', 'static/')
     STATIC_DIRS = (
+        os.path.join(BASE_DIR, 'adminlte', 'static/'),
         os.path.join(BASE_DIR, 'messageset', 'static/')
     )
 
