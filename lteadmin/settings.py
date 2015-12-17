@@ -123,6 +123,9 @@ STATIC_URL = '/static/'
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'adminlte', 'static/')
+    STATIC_DIRS = (
+        os.path.join(BASE_DIR, 'messageset', 'static/')
+    )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
