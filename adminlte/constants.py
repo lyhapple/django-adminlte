@@ -2,7 +2,6 @@
 
 __author__ = 'lyhapple'
 
-
 DEFAULT_DASHBOARD_TITLE = u'首页'
 
 MALE = 'male'
@@ -17,6 +16,11 @@ TRUE_FALSE = (
     (True, u'是'),
     (False, u'否')
 )
+
+DICT_NULL_BLANK_TRUE = {
+    'null': True,
+    'blank': True
+}
 
 
 class ReadStatus(object):
@@ -44,11 +48,12 @@ class MailStatus(object):
         (DELETED, u'删除'),
     )
 
+
 class UsableStatus(object):
     UNUSABLE = 0
     USABLE = 1
     DELETED = 99
-    USABLE_STATUS = (
+    STATUS = (
         (UNUSABLE, u'禁用'),
         (USABLE, u'启用'),
         (DELETED, u'删除'),
@@ -59,7 +64,7 @@ class TaskStatus(object):
     NORMAL = 0
     EXCEPT = 1
     FINISHED = 2
-    DELETED = 9
+    DELETED = 99
     TASK_STATUS = (
         (NORMAL, u'正常(进行中)'),
         (EXCEPT, u'异常'),
