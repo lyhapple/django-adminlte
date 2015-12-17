@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from adminlte.views import CommonListPageView, \
     CommonCreatePageView, CommonUpdatePageView, CommonDeletePageView, \
@@ -11,23 +12,23 @@ urlpatterns = [
         name='http403'),
 
     url(r'/(?P<app_name>\w+)/(?P<model_name>\w+)/list$',
-        CommonListPageView.as_view(),
+        login_required(CommonListPageView.as_view()),
         name='common_list_page'),
 
     url(r'/(?P<app_name>\w+)/(?P<model_name>\w+)/create$',
-        CommonCreatePageView.as_view(),
+        login_required(CommonCreatePageView.as_view()),
         name='common_create_page'),
 
     url(r'/(?P<app_name>\w+)/(?P<model_name>\w+)/detail/(?P<pk>\d+)$',
-        CommonDetailPageView.as_view(),
+        login_required(CommonDetailPageView.as_view()),
         name='common_detail_page'),
 
     url(r'/(?P<app_name>\w+)/(?P<model_name>\w+)/update/(?P<pk>\d+)$',
-        CommonUpdatePageView.as_view(),
+        login_required(CommonUpdatePageView.as_view()),
         name='common_update_page'),
 
     url(r'/(?P<app_name>\w+)/(?P<model_name>\w+)/delete$',
-        CommonDeletePageView.as_view(),
+        login_required(CommonDeletePageView.as_view()),
         name='common_delete_page'),
 
     # url(r'/page/(?P<app_name>\w+)/(?P<model_name>\w+)/form.html$',

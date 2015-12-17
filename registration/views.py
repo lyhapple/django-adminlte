@@ -27,7 +27,7 @@ class LoginView(FormView):
 
     def get_success_url(self):
         try:
-            return config.LOGIN_REDIRECT_URL
+            return self.request.GET.get('next', config.LOGIN_REDIRECT_URL)
         except:
             return "/accounts/profile/"
 
