@@ -9,11 +9,15 @@
 * **属性**：
 
     * *list_template_name (可选)*
-        列表页面模板
+        列表模板页
     
-    * *form_template_name(可选)*
+    * *form_template_name (可选)*
     ﻿
         ﻿表单模板页
+    
+    * *detail_template_name (可选)*
+    
+        详情模板页
     
     * *list_display_fields (必选)*
     
@@ -32,6 +36,10 @@
     
     用于查询数据的字段集, tuple类型, django-rest-framework会使用到此属性的值，
     具体可参与django-rest-framework官网文档有关search field章节的内容.
+    
+    * *success_url (可选)*
+    
+    表单保存成功后的默认跳转路径
     
 
 * **类方法**, 注意：是类方法,方法名均使用@classmethod装饰器

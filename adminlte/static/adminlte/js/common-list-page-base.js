@@ -14,11 +14,6 @@ var CommonListPageVue = Vue.extend({
             count: 0
         }
     },
-    ready: function () {
-        if(this.appName && this.modelName){
-            this.loadData({});
-        }
-    },
     methods: {
         toggleAllBox: function (event) {
             $("input[name='checkboxRow']").prop(

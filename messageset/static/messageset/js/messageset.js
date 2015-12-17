@@ -5,14 +5,14 @@
 var messagesetVue = new Vue({
     el: '#messagesetVue',
     data: {
-        sitemail: [],
+        sitemailreceive: [],
         notification: [],
         task: [],
         appName: 'messageset'
     },
     ready: function(){
         var data = {'status': 0};
-        this.loadData('sitemail', {"status": 0, 'receiver': true});
+        this.loadData('sitemailreceive', {"status": 0});
         this.loadData('notification', data);
         this.loadData('task', data);
     },
@@ -26,7 +26,7 @@ var messagesetVue = new Vue({
             );
         },
         sitemailDetail: function(event){
-            this.detail('sitemail', event);
+            this.detail('sitemailreceive', event);
         },
         taskDetail: function(event){
             this.detail('task', event);

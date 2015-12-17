@@ -5,31 +5,40 @@
 var sitemailListPageVue = new CommonListPageVue({
     el: '#siteMailContentRow',
     data: {
+        firstCount: true,
         unReadItemsCount: 0,
         showBox: 'in'
     },
     ready: function () {
         if (this.appName && this.modelName) {
-            this.loadData({'receive': true});
+            this.loadData({});
         }
     },
     methods: {
+        newMail: function(event){
+            window.location.href = Urls['adminlte:common_create_page'](
+                this.appName,
+                'sitemailcontent'
+            );
+        },
         inBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
             this.showBox = 'in';
-            this.loadData({'receive': true});
+            this.modelName = 'sitemailreceive';
+            this.loadData({});
         },
         sendBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
             this.showBox = 'send';
-            this.loadData({'sender': true});
+            this.modelName = 'sitemailsend';
+            this.loadData({});
         },
-        trashBox: function(event){
+        trashBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
-            this.loadData({'trash': true});
+            this.loadData({});
         },
         filterStatus: function (status, event) {
             var self = this, data = {};
@@ -78,14 +87,17 @@ var sitemailListPageVue = new CommonListPageVue({
 });
 
 sitemailListPageVue.$watch('items', function (items) {
-    if (this.unReadItemsCount === 0) {
+    if (sitemailListPageVue.firstCount) {
         var count = 0;
-        $.each(items, function (i, item) {
-            if (item.status_value === 0 &&
-                item.sender != sitemailListPageVue.userName) {
-                count++;
-            }
-        });
-        this.unReadItemsCount = count;
+        if (sitemailListPageVue.unReadItemsCount === 0) {
+            $.each(items, function (i, item) {
+                if (item.status_value === 0 &&
+                    item.sender != sitemailListPageVue.userName) {
+                    count++;
+                }
+            });
+        }
+        sitemailListPageVue.unReadItemsCount = count;
     }
+    sitemailListPageVue.firstCount = false;
 });

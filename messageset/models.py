@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -11,19 +12,69 @@ from adminlte.constants import ReadStatus, TaskStatus, MailStatus, \
 from adminlte.models import BaseModel
 
 
-class SiteMail(BaseModel, MailStatus):
+class AbstractMessageContent(BaseModel, UsableStatus):
     title = models.CharField(
-        verbose_name=u'主题', max_length=200
+        verbose_name=u'标题', max_length=200
     )
-    contents = models.TextField(verbose_name=u'内容')
+    contents = models.TextField(
+        verbose_name=u'内容'
+    )
+    status = models.PositiveSmallIntegerField(
+        verbose_name=u'状态',
+        choices=UsableStatus.STATUS,
+        default=UsableStatus.USABLE,
+        db_index=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class SiteMailContent(AbstractMessageContent):
+    receivers = models.ManyToManyField(
+        User, blank=True,
+        related_name='sitemail_receivers',
+        verbose_name=u'接收人',
+        help_text=u'不选则发送给全体用户'
+    )
+
+    class Meta:
+        verbose_name_plural = verbose_name = u'站内邮件内容'
+
+    def __unicode__(self):
+        return self.title
+
+    class Config:
+        success_url = reverse_lazy(
+            'adminlte:common_list_page',
+            kwargs={
+                'app_name': 'messageset',
+                'model_name': 'sitemailreceive'
+            }
+        )
+        list_form_fields = (
+            'title', 'contents', 'receivers'
+        )
+
+
+class AbstractSiteMail(BaseModel, MailStatus):
+    title = models.CharField(
+        verbose_name=u'主题',
+        max_length=200
+    )
+    content = models.ForeignKey(
+        SiteMailContent,
+        verbose_name=u'内容'
+    )
     sender = models.ForeignKey(
         User,
-        related_name='sitemail_sender',
-        verbose_name=u'发件人', **DICT_NULL_BLANK_TRUE
+        related_name='+',
+        verbose_name=u'发件人',
+        **DICT_NULL_BLANK_TRUE
     )
-    receiver = models.ForeignKey(
-        User, related_name='sitemail_receiver',
-        verbose_name=u'收件人',
+    send_time = models.DateTimeField(
+        verbose_name=u'发送时间',
+        auto_now_add=True,
         **DICT_NULL_BLANK_TRUE
     )
     status = models.PositiveSmallIntegerField(
@@ -32,82 +83,109 @@ class SiteMail(BaseModel, MailStatus):
         default=MailStatus.UNREAD,
         db_index=True
     )
-    send_time = models.DateTimeField(
-        verbose_name=u'发送时间', auto_now_add=True, **DICT_NULL_BLANK_TRUE
+
+    class Meta:
+        abstract = True
+
+
+class SiteMailSend(AbstractSiteMail):
+    def __unicode__(self):
+        return u'<发件箱-%s-%s>' % (self.pk, self.title)
+
+    class Meta:
+        verbose_name_plural = verbose_name = u'发件箱'
+
+    class Config:
+        detail_template_name = 'messageset/sitemail_detail.html'
+        list_display_fields = (
+            'title', 'send_time', 'id'
+        )
+        list_form_fields = (
+            'title',
+            'content.contents',
+            'send_time',
+        )
+        filter_fields = ('status', )
+        search_fields = ('title', )
+
+        @classmethod
+        def filter_queryset(cls, request, queryset):
+            return queryset.filter(sender=request.user).exclude(
+                status=SiteMailSend.DELETED
+            )
+
+
+class SiteMailReceive(AbstractSiteMail):
+    receive = models.ForeignKey(
+        User,
+        related_name='+',
+        verbose_name=u'收件人',
+        **DICT_NULL_BLANK_TRUE
     )
     read_time = models.DateTimeField(
-        verbose_name=u'读取时间', **DICT_NULL_BLANK_TRUE
+        verbose_name=u'读取时间',
+        **DICT_NULL_BLANK_TRUE
     )
 
     def __unicode__(self):
-        return u'<站内邮件-%s-%s>' % (self.pk, self.title)
+        return u'<收件箱-%s-%s>' % (self.pk, self.title)
 
     class Meta:
-        verbose_name_plural = verbose_name = u'站内邮件'
+        verbose_name_plural = verbose_name = u'收件箱'
 
     class Config:
         list_template_name = 'messageset/sitemail_list.html'
         form_template_name = 'messageset/sitemail_form.html'
+        detail_template_name = 'messageset/sitemail_detail.html'
         list_display_fields = (
-            'title', 'sender', 'receiver',
+            'title', 'sender',
             'status', 'send_time', 'id'
         )
         list_form_fields = (
-            'title', 'sender', 'receiver', 'contents'
+            'title', 'sender', 'content.contents'
         )
         filter_fields = ('status', )
-        search_fields = ()
+        search_fields = ('title', )
 
         @classmethod
         def filter_queryset(cls, request, queryset):
-            if 'receiver' in request.query_params \
-                    or 'sender' in request.query_params \
-                    or 'trash' in request.query_params:
-                receive = request.query_params.get('receive', None)
-                if receive:
-                    queryset = queryset.filter(receiver=request.user).exclude(
-                        status=SiteMail.DELETED
-                    )
-
-                sender = request.query_params.get('sender', None)
-                if sender:
-                    queryset = queryset.filter(sender=request.user).exclude(
-                        status=SiteMail.DELETED
-                    )
-                trash = request.query_params.get('trash', None)
-                if trash:
-                    queryset = queryset.filter(
-                        Q(status=SiteMail.DELETED),
-                        Q(sender=request.user) | Q(receiver=request.user)
-                    )
-            else:
-                queryset = SiteMail.objects.none()
-            return queryset
+            return queryset.filter(receive=request.user).exclude(
+                status=SiteMailReceive.DELETED
+            )
+            # if 'receive' in request.query_params \
+            # or 'trash' in request.query_params:
+            # receive = request.query_params.get('receive', None)
+            #     if receive:
+            #
+            #     trash = request.query_params.get('trash', None)
+            #     if trash:
+            #         queryset = queryset.filter(
+            #             Q(status=SiteMailReceive.DELETED),
+            #             Q(sender=request.user) | Q(receive=request.user)
+            #         )
+            # else:
+            #     queryset = SiteMailReceive.objects.none()
+            # return queryset
 
         @classmethod
         def get_object_hook(cls, request, obj):
-            obj.status = ReadStatus.READ
+            save_flag = False
+            if obj.status != ReadStatus.READ:
+                obj.status = ReadStatus.READ
+                save_flag = True
             if not obj.read_time:
                 obj.read_time = datetime.datetime.now()
-            obj.save()
+                save_flag = True
+            if save_flag:
+                obj.save()
 
 
-class NotificationContent(BaseModel, UsableStatus):
-    title = models.CharField(
-        verbose_name=u'标题', max_length=200
-    )
-    contents = models.TextField(verbose_name=u'内容')
+class NotificationContent(AbstractMessageContent):
     receivers = models.ManyToManyField(
         User, blank=True,
-        related_name='receivers',
+        related_name='notification_receivers',
         verbose_name=u'接收人',
         help_text=u'不选则发送给全体用户'
-    )
-    status = models.PositiveSmallIntegerField(
-        verbose_name=u'状态',
-        choices=UsableStatus.STATUS,
-        default=UsableStatus.USABLE,
-        db_index=True
     )
 
     class Meta:
@@ -119,11 +197,21 @@ class NotificationContent(BaseModel, UsableStatus):
 
 class Notification(BaseModel, ReadStatus):
     title = models.CharField(
-        verbose_name=u'标题', max_length=200,
-        default='', **DICT_NULL_BLANK_TRUE
+        verbose_name=u'标题',
+        max_length=200,
+        default='',
+        **DICT_NULL_BLANK_TRUE
     )
     content = models.ForeignKey(
-        NotificationContent, verbose_name=u'内容', **DICT_NULL_BLANK_TRUE
+        NotificationContent,
+        verbose_name=u'内容',
+        **DICT_NULL_BLANK_TRUE
+    )
+    receive = models.ForeignKey(
+        User,
+        related_name='+',
+        verbose_name=u'接收人',
+        **DICT_NULL_BLANK_TRUE
     )
     status = models.PositiveSmallIntegerField(
         verbose_name=u'读取状态',
@@ -132,15 +220,12 @@ class Notification(BaseModel, ReadStatus):
         db_index=True
     )
     send_time = models.DateTimeField(
-        verbose_name=u'发送时间', auto_now_add=True, **DICT_NULL_BLANK_TRUE
+        verbose_name=u'发送时间',
+        auto_now_add=True,
+        **DICT_NULL_BLANK_TRUE
     )
     read_time = models.DateTimeField(
-        verbose_name=u'读取时间', **DICT_NULL_BLANK_TRUE
-    )
-    receiver = models.ForeignKey(
-        User,
-        related_name='+',
-        verbose_name=u'接收人',
+        verbose_name=u'读取时间',
         **DICT_NULL_BLANK_TRUE
     )
 
@@ -164,7 +249,7 @@ class Notification(BaseModel, ReadStatus):
         @classmethod
         def filter_queryset(cls, request, queryset):
             return queryset.exclude(status=Notification.DELETED).filter(
-                receiver=request.user
+                receive=request.user
             )
 
         @classmethod
@@ -173,30 +258,6 @@ class Notification(BaseModel, ReadStatus):
             if not obj.read_time:
                 obj.read_time = datetime.datetime.now()
             obj.save()
-
-
-@receiver(post_save, sender=NotificationContent)
-def create_notification_datas(sender, instance, **kwargs):
-    """
-    保存系统通知时，给所选用户发送通知，
-    目前是向Notification表添加数据
-    这里将来可以替换为异步消息队列
-    :param sender:
-    :param instance:
-    :param kwargs:
-    """
-    for user in instance.receivers.all():
-        exists = Notification.objects.filter(
-            receiver=user, content=instance
-        ).exists()
-        if not exists:
-            nf = Notification()
-            nf.title = instance.title
-            nf.content = instance
-            nf.receiver = user
-            nf.creator = instance.creator
-            nf.status = Notification.UNREAD
-            nf.save()
 
 
 class Task(BaseModel, TaskStatus):
@@ -250,3 +311,51 @@ class Task(BaseModel, TaskStatus):
             return queryset.filter(creator=request.user).exclude(
                 status=TaskStatus.DELETED
             )
+
+
+@receiver(post_save, sender=SiteMailContent)
+def create_sitemail_datas(sender, instance, **kwargs):
+    """
+    发送邮件时，向收件箱和发件箱添加数据，
+    这里将来可以替换为异步消息队列
+    :param sender:
+    :param instance:
+    :param kwargs:
+    """
+    kwargs = {
+        'title': instance.title,
+        'content': instance,
+        'sender': instance.creator,
+        'creator': instance.creator
+    }
+    SiteMailSend(**kwargs).save()
+    for user in instance.receivers.all():
+        tmp_kwargs = {
+            'receive': user,
+        }
+        tmp_kwargs.update(kwargs)
+        SiteMailReceive(**tmp_kwargs).save()
+
+
+@receiver(post_save, sender=NotificationContent)
+def create_notification_datas(sender, instance, **kwargs):
+    """
+    保存系统通知时，给所选用户发送通知，
+    目前是向Notification表添加数据
+    这里将来可以替换为异步消息队列
+    :param sender:
+    :param instance:
+    :param kwargs:
+    """
+    for user in instance.receivers.all():
+        exists = Notification.objects.filter(
+            receive=user, content=instance
+        ).exists()
+        if not exists:
+            nf = Notification()
+            nf.title = instance.title
+            nf.content = instance
+            nf.receive = user
+            nf.creator = instance.creator
+            nf.status = Notification.UNREAD
+            nf.save()

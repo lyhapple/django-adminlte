@@ -1,0 +1,23 @@
+{% extends "adminlte/common_detail.html" %}
+{% load adminlte_tags %}
+
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li>
+            <a href="/">
+                <i class="fa fa-dashboard"></i> {{ default_dashboard_title }}
+            </a>
+        </li>
+        {% if page_title != default_dashboard_title %}
+            <li class="active">
+                <a href="{% url 'adminlte:common_list_page' page_app_name 'sitemailreceive' %}">
+                    站内信
+                </a>
+            </li>
+        {% endif %}
+        {% if object != None %}
+            <li class="active">详情</li>
+        {% endif %}
+    </ol>
+{% endblock %}
