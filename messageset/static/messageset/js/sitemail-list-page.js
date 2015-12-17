@@ -10,7 +10,7 @@ var sitemailListPageVue = new CommonListPageVue({
     },
     ready: function () {
         if (this.appName && this.modelName) {
-            this.loadData({'receiver': true});
+            this.loadData({'receive': true});
         }
     },
     methods: {
@@ -18,7 +18,7 @@ var sitemailListPageVue = new CommonListPageVue({
             $(event.target).parent().siblings().removeClass('active');
             $(event.target).parent().addClass('active');
             this.showBox = 'in';
-            this.loadData({'receiver': true});
+            this.loadData({'receive': true});
         },
         sendBox: function (event) {
             $(event.target).parent().siblings().removeClass('active');

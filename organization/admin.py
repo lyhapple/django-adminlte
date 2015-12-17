@@ -4,18 +4,16 @@ from django.contrib import admin
 from organization.models import Company, Department, Staff
 
 
+@admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
     pass
-
-
-admin.site.register(Company)
-admin.site.register(Department)
-admin.site.register(Staff)

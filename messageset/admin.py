@@ -1,11 +1,16 @@
 # coding=utf-8
 
 from django.contrib import admin
-from .models import SiteMail, Notification, Task
+from .models import SiteMail, Notification, Task, NotificationContent
 
 
 @admin.register(SiteMail)
 class SiteMailAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(NotificationContent)
+class NotificationContentAdmin(admin.ModelAdmin):
     pass
 
 

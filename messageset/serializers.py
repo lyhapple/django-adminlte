@@ -1,7 +1,6 @@
 # coding=utf-8
 from rest_framework import serializers
-from lteadmin import utils
-from .models import Task, Notification, SiteMail, ReadStatus
+from .models import Task, Notification, SiteMail
 
 __author__ = 'lyhapple'
 
@@ -30,10 +29,16 @@ class SiteMailSerializer(serializers.ModelSerializer):
 
 
 class NotificationSerializer(serializers.ModelSerializer):
+    content = serializers.CharField(source='content.contents')
+    status = serializers.SerializerMethodField()
+
+    def get_status(self, obj):
+        return obj.get_status_display()
+
     class Meta:
         model = Notification
         fields = (
-            'id', 'title', 'contents', 'status', 'read_time',
+            'id', 'title', 'content', 'status', 'send_time', 'read_time',
             'creator', 'created_at'
         )
         read_only_fields = (
