@@ -98,11 +98,13 @@
                                                    v-on:click="detail">
                                                     详情
                                                 </a> |
+                                                {% block common_list_page_show_modify %}
                                                 <a href="javascript:void(0);"
                                                    data-pk="#[item.id]"
                                                    v-on:click="update">
                                                     修改
                                                 </a> |
+                                                {% endblock %}
                                                 <a href="javascript:void(0);"
                                                    data-pk="#[item.id]"
                                                    v-on:click="removeOne">
