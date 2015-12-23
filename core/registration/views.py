@@ -8,9 +8,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
-from adminlte.views import get_system_config_value
-from registration import config
-from registration.forms import RegistrationForm, LoginForm
+from core.adminlte.views import get_system_config_value
+from core.registration import config
+from core.registration.forms import RegistrationForm, LoginForm
 
 
 class LoginView(FormView):

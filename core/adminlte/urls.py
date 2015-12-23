@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-from adminlte.views import CommonListPageView, \
+from core.adminlte.views import CommonListPageView, \
     CommonCreatePageView, CommonUpdatePageView, CommonDeletePageView, \
     CommonDetailPageView
 

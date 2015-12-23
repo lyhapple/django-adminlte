@@ -4,7 +4,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from adminlte.views import IndexView, ChangePasswordView, \
+from core.adminlte.views import IndexView, ChangePasswordView, \
     ChangePasswordDoneView
 
 
@@ -19,7 +19,8 @@ urlpatterns = [
 
     url(r'^$', login_required(IndexView.as_view()), name='index'),
 
-    url(r'^auth/', include("registration.urls", namespace="registration")),
+    url(r'^auth/', include("core.registration.urls",
+                           namespace="registration")),
 
     url(r'^jsreverse/$', 'django_js_reverse.views.urls_js', name='js_reverse'),
 ]
@@ -31,10 +32,10 @@ urlpatterns += [
 ]
 # API url
 urlpatterns += [
-    url(r'^api/v1/messageset', include('messageset.urls_api',
+    url(r'^api/v1/messageset', include('core.messageset.urls_api',
                                        namespace='messageset_api')),
     # url(r'^api/v1/organization', include('organization.urls',
-    #                                      namespace='organization_api')),
+    # namespace='organization_api')),
 ]
 
 # ===================== 自定义url映射 结束 ==================================
@@ -42,8 +43,9 @@ urlpatterns += [
 # 通用URL映射，必须放在最后
 urlpatterns += [
     # 通用页面URL映射，必须放在最后
-    url(r'^page', include('adminlte.urls', namespace='adminlte')),
-    url(r'^api/v1', include('adminlte.urls_api', namespace='adminlte_api')),
+    url(r'^page', include('core.adminlte.urls', namespace='adminlte')),
+    url(r'^api/v1', include('core.adminlte.urls_api',
+                            namespace='adminlte_api')),
 ]
 
 if settings.DEBUG:

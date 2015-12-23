@@ -5,5 +5,5 @@ __author__ = 'lyhapple'
 
 
 class MessageAppConfig(AppConfig):
-    name = "messageset"
+    name = "core.messageset"
     verbose_name = u"消息中心"

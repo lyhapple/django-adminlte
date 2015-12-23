@@ -46,10 +46,10 @@ INSTALLED_APPS = (
     'django_js_reverse',
 
     # my_app
-    'adminlte',
-    'registration',
-    'messageset',
-    'organization'
+    'core.adminlte',
+    'core.registration',
+    'core.messageset',
+    'core.organization'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,8 +64,8 @@ MIDDLEWARE_CLASSES = (
 
     'django.middleware.locale.LocaleMiddleware',
 
-    'adminlte.middleware.ApiPermissionCheck',
-    'adminlte.middleware.MenuMiddleware'
+    'core.adminlte.middleware.ApiPermissionCheck',
+    'core.adminlte.middleware.MenuMiddleware'
 )
 
 ROOT_URLCONF = 'lteadmin.urls'
@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'lteadmin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'conf', 'db.sqlite3'),
     }
 }
 
@@ -147,7 +147,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS':
-        'adminlte.pagination.CommonPageNumberPagination',
+        'core.adminlte.pagination.CommonPageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
     'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M:%S',),

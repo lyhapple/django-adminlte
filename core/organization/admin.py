@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from django.contrib import admin
-from organization.models import Company, Department, Staff
+from .models import Company, Department, Staff
 
 
 @admin.register(Company)

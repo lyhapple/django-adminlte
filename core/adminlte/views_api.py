@@ -4,7 +4,7 @@ import sys
 from rest_framework import filters
 
 from rest_framework.generics import ListCreateAPIView
-from adminlte.views import get_app_model_name, get_model_content_type
+from core.adminlte.views import get_app_model_name, get_model_content_type
 
 __author__ = 'lyhapple'
 
@@ -18,7 +18,10 @@ class CommonListAPIView(ListCreateAPIView):
         self.model = model_type.model_class()
 
         serialize_name = self.model.__name__ + 'Serializer'
-        serializer_module = sys.modules['%s.serializers' % self.app_name]
+        module_str = 'core.%s.serializers' % self.app_name
+        if module_str not in sys.modules:
+            module_str = 'apps.%s.serializers' % self.app_name
+        serializer_module = sys.modules[module_str]
 
         self.queryset = self.model.objects.all()
         self.filter_fields = getattr(self.model.Config, 'filter_fields', ())

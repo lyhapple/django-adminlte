@@ -6,7 +6,7 @@ from django.db import models
 from django.utils import timezone
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
-from adminlte.constants import UsableStatus, DICT_NULL_BLANK_TRUE
+from core.adminlte.constants import UsableStatus, DICT_NULL_BLANK_TRUE
 
 
 class BaseModel(models.Model):

@@ -6,7 +6,7 @@ __author__ = 'lyhapple'
 
 
 class OrganizationAppConfig(AppConfig):
-    name = "organization"
+    name = "core.organization"
     verbose_name = u"组织机构"
 
 

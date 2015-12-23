@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from django.conf.urls import url
-from registration import views
+from core.registration import views
 
 urlpatterns = [
     # sessions

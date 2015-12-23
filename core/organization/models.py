@@ -4,9 +4,9 @@ from django.db import models
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from adminlte import constants
-from adminlte.constants import UsableStatus, DICT_NULL_BLANK_TRUE
-from adminlte.models import BaseModel, User
+from core.adminlte import constants
+from core.adminlte.constants import UsableStatus, DICT_NULL_BLANK_TRUE
+from core.adminlte.models import BaseModel, User
 
 
 class Company(MPTTModel, BaseModel, UsableStatus):

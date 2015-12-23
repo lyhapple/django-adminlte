@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import adminlte.constants
 import django.utils.timezone
 from django.conf import settings
+import core.adminlte.constants
 
 
 class Migration(migrations.Migration):
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u7cfb\u7edf\u901a\u77e5',
                 'verbose_name_plural': '\u7cfb\u7edf\u901a\u77e5',
             },
-            bases=(models.Model, adminlte.constants.ReadStatus),
+            bases=(models.Model, core.adminlte.constants.ReadStatus),
         ),
         migrations.CreateModel(
             name='NotificationContent',
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u7cfb\u7edf\u901a\u77e5\u5185\u5bb9',
                 'verbose_name_plural': '\u7cfb\u7edf\u901a\u77e5\u5185\u5bb9',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='SiteMailContent',
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u7ad9\u5185\u90ae\u4ef6\u5185\u5bb9',
                 'verbose_name_plural': '\u7ad9\u5185\u90ae\u4ef6\u5185\u5bb9',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='SiteMailReceive',
@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u6536\u4ef6\u7bb1',
                 'verbose_name_plural': '\u6536\u4ef6\u7bb1',
             },
-            bases=(models.Model, adminlte.constants.MailStatus),
+            bases=(models.Model, core.adminlte.constants.MailStatus),
         ),
         migrations.CreateModel(
             name='SiteMailSend',
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u53d1\u4ef6\u7bb1',
                 'verbose_name_plural': '\u53d1\u4ef6\u7bb1',
             },
-            bases=(models.Model, adminlte.constants.MailStatus),
+            bases=(models.Model, core.adminlte.constants.MailStatus),
         ),
         migrations.CreateModel(
             name='Task',
@@ -131,7 +131,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u540e\u53f0\u4efb\u52a1',
                 'verbose_name_plural': '\u540e\u53f0\u4efb\u52a1',
             },
-            bases=(models.Model, adminlte.constants.TaskStatus),
+            bases=(models.Model, core.adminlte.constants.TaskStatus),
         ),
         migrations.AddField(
             model_name='notification',

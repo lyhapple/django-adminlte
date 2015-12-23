@@ -15,6 +15,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lteadmin.settings")
 
 application = get_wsgi_application()
 
-from adminlte import serializers
-from organization import serializers
-from messageset import serializers
+from core.adminlte import serializers
+from core.organization import serializers
+from core.messageset import serializers
