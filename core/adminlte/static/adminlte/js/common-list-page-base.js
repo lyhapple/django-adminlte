@@ -28,7 +28,7 @@ var CommonListPageVue = Vue.extend({
                 $(event.target).data('pk')
             );
         },
-        create: function (modelName, event) {
+        create: function (event, modelName) {
             var name = this.modelName;
             if(modelName){
                 name = modelName;

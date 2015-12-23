@@ -4,7 +4,7 @@
 {% block common_list_buttons %}
     {% if request.user and request.user.is_superuser %}
         <button class="btn btn-primary"
-                v-on:click="create('notificationcontent')">
+                v-on:click="create(event, 'notificationcontent')">
             <i class="fa fa-plus"></i>
             发布新通知
         </button>
