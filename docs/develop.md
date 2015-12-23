@@ -79,4 +79,17 @@
 
 ###Serializer 序列化类
 
-使用了django-rest-framework框架, 所有序列化类参照DRF的官方文档标准即可
+使用了django-rest-framework框架, 所有序列化类参照DRF的官方文档标准即可。
+
+**注意**：需要将serializers模块导入到路径中，可按如下方式进行操作。
+
+为应用添加apps.py模块, 创建app config类，并在ready方法导入serializers模块, 例如：
+
+    class AdminLteAppConfig(AppConfig):
+        name = "core.adminlte"
+        verbose_name = u"系统管理"
+        
+        def ready(self):
+            import serializers
+            pass
+        
