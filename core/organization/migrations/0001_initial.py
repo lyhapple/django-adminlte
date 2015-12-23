@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import adminlte.constants
 import mptt.fields
 import django.utils.timezone
 from django.conf import settings
+import core.adminlte.constants
 
 
 class Migration(migrations.Migration):
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u516c\u53f8',
                 'verbose_name_plural': '\u516c\u53f8',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='Department',
@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u90e8\u95e8',
                 'verbose_name_plural': '\u90e8\u95e8',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='Staff',
@@ -86,6 +86,6 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u5458\u5de5',
                 'verbose_name_plural': '\u5458\u5de5',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
     ]

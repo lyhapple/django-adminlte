@@ -4,9 +4,9 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import mptt.fields
 import django.contrib.auth.models
-import adminlte.constants
 import django.utils.timezone
 from django.conf import settings
+import core.adminlte.constants
 
 
 class Migration(migrations.Migration):
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u83dc\u5355',
                 'verbose_name_plural': '\u83dc\u5355',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='Permission',
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u6743\u9650',
                 'verbose_name_plural': '\u6743\u9650',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='Resource',
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'API\u8d44\u6e90',
                 'verbose_name_plural': 'API\u8d44\u6e90',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='SystemConfig',
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                 'verbose_name': '\u7cfb\u7edf\u914d\u7f6e',
                 'verbose_name_plural': '\u7cfb\u7edf\u914d\u7f6e',
             },
-            bases=(models.Model, adminlte.constants.UsableStatus),
+            bases=(models.Model, core.adminlte.constants.UsableStatus),
         ),
         migrations.CreateModel(
             name='LteGroup',

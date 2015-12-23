@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 from django.http import HttpResponse
-from adminlte.models import Permission, Menu
+from core.adminlte.models import Permission, Menu
 
 __author__ = 'lyhapple'
 

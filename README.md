@@ -36,7 +36,7 @@
 2. cd django-adminlte
 3. pip install -r requirement.txt
 4. python manage_dev.py migrate
-5. python manage_dev.py loaddata fixture_data.json
+5. python manage_dev.py loaddata conf/fixture_data.json
 6. python manage_dev.py runserver
 
 ## 开发与使用

@@ -5,5 +5,5 @@ __author__ = 'lyhapple'
 
 
 class AdminLteAppConfig(AppConfig):
-    name = "adminlte"
+    name = "core.adminlte"
     verbose_name = u"系统管理"
