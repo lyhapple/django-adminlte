@@ -48,6 +48,8 @@
 {% block base_foot_script %}
     <script type="text/javascript">
         $('#commonForm input:text').addClass('form-control');
+        $("#commonForm input[type='email']").addClass('form-control');
+        $("#commonForm input[type='number']").addClass('form-control');
         $('#commonForm select').addClass('form-control');
         $('#commonForm textarea').addClass('form-control');
     </script>
