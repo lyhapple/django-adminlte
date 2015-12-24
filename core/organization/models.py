@@ -1,4 +1,5 @@
 # coding=utf-8
+from django.core.urlresolvers import reverse
 
 from django.db import models
 from mptt.fields import TreeForeignKey
@@ -25,6 +26,16 @@ class Company(MPTTModel, BaseModel, UsableStatus):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'公司'
@@ -69,18 +80,25 @@ class Department(MPTTModel, BaseModel, UsableStatus):
         list_form_fields = list_display_fields
 
     def __unicode__(self):
-        return u'[%s]%s' % (self.company, self.name)
+        return u'/%s/%s' % (self.company.name, self.name)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
 
-class Staff(BaseModel, UsableStatus):
+class AbstractPersonInfo(BaseModel, UsableStatus):
     IN_JOB = 1
     OUT_JOB = 2
     STAFF_STATUS = (
         (IN_JOB, u'在职'),
         (OUT_JOB, u'离职'),
-    )
-    user = models.OneToOneField(
-        User, verbose_name=u'登录账号', related_name='staff_of'
     )
     real_name = models.CharField(
         verbose_name=u'真实姓名', max_length=20
@@ -108,9 +126,6 @@ class Staff(BaseModel, UsableStatus):
         default=None,
         **DICT_NULL_BLANK_TRUE
     )
-    department = models.ForeignKey(
-        Department, verbose_name=u'所在部门'
-    )
     job_status = models.IntegerField(
         verbose_name=u'状态',
         choices=STAFF_STATUS,
@@ -127,8 +142,30 @@ class Staff(BaseModel, UsableStatus):
         **DICT_NULL_BLANK_TRUE
     )
 
+    class Meta:
+        abstract = True
+
+
+class Staff(AbstractPersonInfo):
+    user = models.OneToOneField(
+        User, verbose_name=u'登录账号', related_name='staff_of'
+    )
+    department = models.ForeignKey(
+        Department, verbose_name=u'所在部门'
+    )
+
     def __unicode__(self):
-        return u'%s-%s' % (self.department, self.real_name)
+        return u'%s/%s' % (self.department, self.real_name)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'员工'

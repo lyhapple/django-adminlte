@@ -1,7 +1,7 @@
 # coding=utf-8
 import datetime
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
@@ -89,7 +89,7 @@ class AbstractSiteMail(BaseModel, MailStatus):
 
 class SiteMailSend(AbstractSiteMail):
     def __unicode__(self):
-        return u'<发件箱-%s-%s>' % (self.pk, self.title)
+        return u'%s' % self.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'发件箱'
@@ -127,7 +127,7 @@ class SiteMailReceive(AbstractSiteMail):
     )
 
     def __unicode__(self):
-        return u'<收件箱-%s-%s>' % (self.pk, self.title)
+        return u'%s' % self.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'收件箱'
@@ -241,7 +241,7 @@ class Notification(BaseModel, ReadStatus):
     )
 
     def __unicode__(self):
-        return u'<系统通知-%s-%s>' % (self.pk, self.content.title)
+        return u'%s' % self.content.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'系统通知'
@@ -295,7 +295,17 @@ class Task(BaseModel, TaskStatus):
     )
 
     def __unicode__(self):
-        return u'<后台任务-%s-%s>' % (self.pk, self.name)
+        return u'%s' % self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'后台任务'

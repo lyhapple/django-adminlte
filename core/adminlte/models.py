@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.contrib.auth.models import User, Group, AbstractBaseUser, \
     AbstractUser
+from django.core.urlresolvers import reverse
 
 from django.db import models
 from django.utils import timezone
@@ -93,7 +94,17 @@ class SystemConfig(MPTTModel, BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u"<参数配置-%s-%s>" % (self.name, self.value)
+        return u"%s" % self.value
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u"参数配置"
@@ -142,7 +153,17 @@ class Menu(MPTTModel, BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u'<菜单-%s-%s>' % (self.name, self.order)
+        return u'%s(%s)' % (self.name, self.order)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'菜单'
@@ -191,7 +212,17 @@ class Resource(BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u'<API资源-%s-%s>' % (self.pk, self.name)
+        return u'%s(%s)' % (self.name, self.note)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'API资源'
@@ -223,6 +254,16 @@ class Permission(BaseModel, UsableStatus):
 
     def __unicode__(self):
         return self.group.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'权限'
