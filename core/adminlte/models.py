@@ -74,13 +74,13 @@ class LteGroup(Group):
 
 class SystemConfig(MPTTModel, BaseModel, UsableStatus):
     name = models.CharField(
-        u"配置名称(英文)", max_length=255, unique=True
-    )
-    title = models.CharField(
-        u"配置名称(中文)", max_length=255
+        u"键", max_length=255, unique=True
     )
     value = models.CharField(
-        u"配置值", max_length=255
+        u"值", max_length=255
+    )
+    title = models.CharField(
+        u"描述", max_length=255
     )
     parent = TreeForeignKey(
         'self', verbose_name=u'父配置项',
@@ -93,19 +93,19 @@ class SystemConfig(MPTTModel, BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u"<系统配置-%s-%s>" % (self.name, self.value)
+        return u"<参数配置-%s-%s>" % (self.name, self.value)
 
     class Meta:
-        verbose_name_plural = verbose_name = u"系统配置"
+        verbose_name_plural = verbose_name = u"参数配置"
 
     class MPTTMeta:
         order_insertion_by = ['name']
 
     class Config:
         list_template_name = 'adminlte/systemconfig_list.html'
-        list_display_fields = ('name', 'parent', 'title', 'value', 'id',)
-        list_form_fields = ('parent', 'name', 'title', 'value', 'id',)
-        search_fields = ('name', 'title', 'value')
+        list_display_fields = ('name', 'parent', 'value', 'title', 'id')
+        list_form_fields = ('parent', 'name', 'value', 'title', 'id')
+        search_fields = ('name', 'value', 'title')
 
 
 class Menu(MPTTModel, BaseModel, UsableStatus):
