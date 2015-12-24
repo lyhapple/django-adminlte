@@ -1,4 +1,5 @@
 # coding=utf-8
+from django.core.urlresolvers import reverse
 
 from django.db import models
 from mptt.fields import TreeForeignKey
@@ -25,6 +26,16 @@ class Company(MPTTModel, BaseModel, UsableStatus):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'公司'
@@ -70,6 +81,16 @@ class Department(MPTTModel, BaseModel, UsableStatus):
 
     def __unicode__(self):
         return u'/%s/%s' % (self.company.name, self.name)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
 
 class AbstractPersonInfo(BaseModel, UsableStatus):
@@ -135,6 +156,16 @@ class Staff(AbstractPersonInfo):
 
     def __unicode__(self):
         return u'%s/%s' % (self.department, self.real_name)
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'员工'

@@ -1,7 +1,7 @@
 # coding=utf-8
 import datetime
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
@@ -296,6 +296,16 @@ class Task(BaseModel, TaskStatus):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'adminlte:common_detail_page',
+            kwargs={
+                'app_name': self._meta.app_label,
+                'model_name': self._meta.model_name,
+                'pk': self.id
+            }
+        )
 
     class Meta:
         verbose_name_plural = verbose_name = u'后台任务'
