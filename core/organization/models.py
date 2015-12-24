@@ -69,7 +69,7 @@ class Department(MPTTModel, BaseModel, UsableStatus):
         list_form_fields = list_display_fields
 
     def __unicode__(self):
-        return u'[%s]%s' % (self.company, self.name)
+        return u'/%s/%s' % (self.company.name, self.name)
 
 
 class AbstractPersonInfo(BaseModel, UsableStatus):
@@ -134,7 +134,7 @@ class Staff(AbstractPersonInfo):
     )
 
     def __unicode__(self):
-        return u'%s-%s' % (self.department, self.real_name)
+        return u'%s/%s' % (self.department, self.real_name)
 
     class Meta:
         verbose_name_plural = verbose_name = u'员工'

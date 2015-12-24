@@ -93,7 +93,7 @@ class SystemConfig(MPTTModel, BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u"<参数配置-%s-%s>" % (self.name, self.value)
+        return u"%s" % self.value
 
     class Meta:
         verbose_name_plural = verbose_name = u"参数配置"
@@ -142,7 +142,7 @@ class Menu(MPTTModel, BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u'<菜单-%s-%s>' % (self.name, self.order)
+        return u'%s(%s)' % (self.name, self.order)
 
     class Meta:
         verbose_name_plural = verbose_name = u'菜单'
@@ -191,7 +191,7 @@ class Resource(BaseModel, UsableStatus):
     )
 
     def __unicode__(self):
-        return u'<API资源-%s-%s>' % (self.pk, self.name)
+        return u'%s(%s)' % (self.name, self.note)
 
     class Meta:
         verbose_name_plural = verbose_name = u'API资源'

@@ -89,7 +89,7 @@ class AbstractSiteMail(BaseModel, MailStatus):
 
 class SiteMailSend(AbstractSiteMail):
     def __unicode__(self):
-        return u'<发件箱-%s-%s>' % (self.pk, self.title)
+        return u'%s' % self.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'发件箱'
@@ -127,7 +127,7 @@ class SiteMailReceive(AbstractSiteMail):
     )
 
     def __unicode__(self):
-        return u'<收件箱-%s-%s>' % (self.pk, self.title)
+        return u'%s' % self.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'收件箱'
@@ -241,7 +241,7 @@ class Notification(BaseModel, ReadStatus):
     )
 
     def __unicode__(self):
-        return u'<系统通知-%s-%s>' % (self.pk, self.content.title)
+        return u'%s' % self.content.title
 
     class Meta:
         verbose_name_plural = verbose_name = u'系统通知'
@@ -295,7 +295,7 @@ class Task(BaseModel, TaskStatus):
     )
 
     def __unicode__(self):
-        return u'<后台任务-%s-%s>' % (self.pk, self.name)
+        return u'%s' % self.name
 
     class Meta:
         verbose_name_plural = verbose_name = u'后台任务'
