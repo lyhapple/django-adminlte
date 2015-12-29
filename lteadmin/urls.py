@@ -11,16 +11,16 @@ from core.adminlte.views import IndexView, ChangePasswordView, \
 # 基础 url
 urlpatterns = [
     url('^page/change-password/$', ChangePasswordView.as_view(),
-        name='change_password'),
+        name='change_password'),                                                    #修改密码方法
     url('^page/change-password-done/$', ChangePasswordDoneView.as_view(),
-        name='password_change_done'),
+        name='password_change_done'),                                               #修改密码成功方法
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),                                      #调用系统后台
 
-    url(r'^$', login_required(IndexView.as_view()), name='index'),
+    url(r'^$', login_required(IndexView.as_view()), name='index'),                  #检查是否登录.没登录 跳转到登录页面
 
     url(r'^auth/', include("core.registration.urls",
-                           namespace="registration")),
+                           namespace="registration")),                              #登录.注册相关
 
     url(r'^jsreverse/$', 'django_js_reverse.views.urls_js', name='js_reverse'),
 ]
@@ -48,6 +48,6 @@ urlpatterns += [
                             namespace='adminlte_api')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG: #如果 开启 DEBUG 模式.会默认加载相关的目录信息
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

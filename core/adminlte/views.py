@@ -31,7 +31,13 @@ def get_system_config_value(key_name):
 
 
 class CommonPageViewMixin(object):
+    """
+    常见 变量引入
+    """
     def get_context_data(self, **kwargs):
+        """
+        重构get context_data
+        """
         context = super(CommonPageViewMixin, self).get_context_data(**kwargs)
         default_dashboard_title = constants.DEFAULT_DASHBOARD_TITLE
         if hasattr(self, 'model'):
@@ -53,22 +59,38 @@ class CommonPageViewMixin(object):
 
 
 class IndexView(CommonPageViewMixin, TemplateView):
-    template_name = "adminlte/index.html"
+    """
+    默认首页
+    """
+    template_name = "adminlte/index.html" #页面地址
 
     def get_context_data(self, **kwargs):
+        """
+        get 请求返回结果
+        """
         context = super(IndexView, self).get_context_data(**kwargs)
-        staff_count = Staff.objects.filter(status=Staff.IN_JOB).count()
+        #TODO 下面的方法.可以所称统一类 进行调用
+        staff_count = Staff.objects.filter(status=Staff.IN_JOB).count()              #返回员工信息
         context['staff_count'] = staff_count
         return context
 
 
 class ChangePasswordView(CommonPageViewMixin, TemplateView):
+    """
+    修改 密码方法.
+    """
     def post(self, request, **kwargs):
         self.request = request
         context = super(ChangePasswordView, self).get_context_data(**kwargs)
         return self.render_to_response(context)
 
     def render_to_response(self, context, **response_kwargs):
+        """
+        get 请求时 返回内容
+        :param context:基础信息
+        :param response_kwargs:
+        :return:
+        """
         context['page_title'] = u'修改密码'
         template_response = views.password_change(
             self.request,

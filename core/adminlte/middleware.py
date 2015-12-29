@@ -17,12 +17,14 @@ class ApiPermissionCheck(object):
             )
             resources = []
             for p in permissions:
-                resources.append(p.resources.values_list('url', flat=True))
-
-            if request.path_info not in resources:
-                return HttpResponse(status=403)
-        pass
-
+                resources.append(list(p.resources.values_list('url', flat=True)))                                       #需要转化成list 才行
+            for List in resources:
+                if type(List) != list:
+                    if str(request.path_info) != str(List):
+                        return HttpResponse(status=403)
+                else:
+                    if request.path_info not in List:
+                        return HttpResponse(status=403)
 
 class MenuMiddleware(object):
     def process_template_response(self, request, response):
