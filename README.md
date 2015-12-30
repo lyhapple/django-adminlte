@@ -12,6 +12,7 @@
 * 前端：
     * jquery, vue.js, underscore
     * adminlte 开源前端模板
+    * sweetalert http://t4t5.github.io/sweetalert/
     
 * 后端
     * django
