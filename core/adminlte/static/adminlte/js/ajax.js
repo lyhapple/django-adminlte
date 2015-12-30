@@ -93,4 +93,24 @@
             success: callback
         });
     };
+    $.AdminLTE.ajaxPost_return = function (url, data, callback) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: $.param(data),
+            dataType: 'json',
+            statusCode: {
+                403: function () {
+                    alert('无权限');
+                },
+                400: function () {
+                    alert('未找到资源');
+                },
+                500: function () {
+                    alert('服务器错误');
+                }
+            },
+            success: callback
+        });
+    };
 }(jQuery));

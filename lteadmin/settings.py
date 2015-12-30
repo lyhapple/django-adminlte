@@ -273,7 +273,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False
         },
-        'web_manage': { # 脚本专用日志
+        'core': { # 脚本专用日志
             'handlers': ['web_manage','default','console'],
             'level': 'DEBUG',
             'propagate': False

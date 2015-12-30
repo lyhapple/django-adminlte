@@ -14,12 +14,23 @@ __author__ = 'lyhapple'
 
 
 def get_app_model_name(kwargs):
-    app_name = kwargs.get('app_name').lower()
+    """
+    获取url的app_name与model_name
+    :param kwargs:
+    :return: 返回获取到的内容
+    """
+    app_name = kwargs.get('app_name').lower()                                                                           #获取get url 信息
     model_name = kwargs.get('model_name').lower()
     return app_name, model_name
 
 
 def get_model_content_type(app_name, model_name):
+    """
+    封装 model 获取类型
+    :param app_name: app名称
+    :param model_name:mode名称
+    :return:
+    """
     return ContentType.objects.get(app_label=app_name, model=model_name)
 
 
@@ -105,24 +116,36 @@ class ChangePasswordDoneView(CommonPageViewMixin, TemplateView):
 
 
 class CommonListPageView(CommonPageViewMixin, ListView):
+    """
+    列表
+    """
     template_name = 'adminlte/common_list.html'
 
     def get(self, request, *args, **kwargs):
-        self.app_name, self.model_name = get_app_model_name(kwargs)
-        model_type = get_model_content_type(self.app_name, self.model_name)
-        self.model = model_type.model_class()
-        if hasattr(self.model.Config, 'list_template_name'):
+        self.app_name, self.model_name = get_app_model_name(kwargs)                                                     #获取具体的执行方法名
+        model_type = get_model_content_type(self.app_name, self.model_name)                                             #封装获取类信息
+        self.model = model_type.model_class()                                                                           #返回具体的模型内容
+        if hasattr(self.model.Config, 'list_template_name'):                                                            #检测返回具体的页面template_name地址
             self.template_name = self.model.Config.list_template_name
-        return super(CommonListPageView, self).get(request, *args, **kwargs)
+        return super(CommonListPageView, self).get(request, *args, **kwargs)                                            #初始化默认的get方法
 
     def get_context_data(self, **kwargs):
-        context = super(CommonListPageView, self).get_context_data(**kwargs)
+        """
+        get方法时
+        :param kwargs:
+        :return:
+        """
+        context = super(CommonListPageView, self).get_context_data(**kwargs)                                            #重载此方法
         titles, fields = self.get_table_titles()
-        context['table_titles'] = titles
-        context['table_fields'] = list(fields)
-        return context
+        context['table_titles'] = titles                                                                                #列表_抬头
+        context['table_fields'] = list(fields)                                                                          #列表具体内容
+        return context                                                                                                  #返回全部信息
 
     def get_table_titles(self):
+        """
+        获取 任务列表.与任务抬头
+        :return:
+        """
         show_fields = self.model.Config.list_display_fields
         meta_fields = self.model._meta.fields
         meta_names = [mf.name for mf in meta_fields]
@@ -203,10 +226,16 @@ class CommonUpdatePageView(CommonFormPageMixin, UpdateView):
 
 class CommonDeletePageView(CommonFormPageMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
-        objects = self.get_object()
-        for obj in objects:
-            obj.delete()
-        return JsonResponse({'message': u'ok'}, status=200)
+        ret = {'message':'','status':False}
+        try:
+            objects = self.get_object()
+            for obj in objects:
+                obj.delete()
+            ret['status'] = True
+            ret['message'] = u'删除成功'
+        except Exception as e :
+            ret['message'] = u'%s'%e
+        return JsonResponse(ret, status=200)
 
     def get_queryset(self):
         self.set_form_page_attributes(*self.args, **self.kwargs)
