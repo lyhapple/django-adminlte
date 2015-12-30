@@ -58,3 +58,5 @@
 3. 写好Model 与 serializer 类之后，可以通过菜单管理页面，增加管理入口，
 比如，创建了名为demo的app, 然后新增了一个Product Model,
 再新增一个ProductSerializer类, 最后即可在菜单管理页面增加对Product数据的管理入口
+
+4.自行更新core/adminlte/static/images/favicon.ico 下的favicon.ico文件以达到自定义方法.默认不提供
