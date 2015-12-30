@@ -68,3 +68,5 @@ docs/_build/
 target/
 
 
+.DS_Store
+2015_.*.json
