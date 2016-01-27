@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'django_js_reverse',
 
-    # my_app
+    # core_app, do not remove
     'core.adminlte',
     'core.registration',
     'core.messageset',
@@ -159,6 +159,5 @@ REST_FRAMEWORK = {
         ('zh-hans', 'Simplified Chinese'),
     ),
     'LANGUAGE_CODE': 'zh-hans',
-    # 'LANGUAGE_CODE': 'zh-hans',
     'NON_FIELD_ERRORS_KEY': 'detail',
 }
