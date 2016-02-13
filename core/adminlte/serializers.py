@@ -7,6 +7,10 @@ __author__ = 'lyhapple'
 
 class SystemConfigSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
+    parent = serializers.SerializerMethodField()
+
+    def get_parent(self, obj):
+        return obj.parent.name if obj.parent else '-'
 
     def get_name(self, obj):
         return '&nbsp;&nbsp;' * obj.level + obj.name
