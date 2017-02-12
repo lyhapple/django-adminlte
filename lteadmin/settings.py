@@ -14,6 +14,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+#django 中文路径.解决
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -93,10 +97,15 @@ WSGI_APPLICATION = 'lteadmin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+#TODO 此处需要连接线上数据库
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'conf', 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cmdb_test',    #你的数据库名称
+        'USER': 'cmdb_test_02',   #你的数据库用户名
+        'PASSWORD': 'ssssss', #你的数据库密码
+        'HOST': '100.66.240.100', #你的数据库主机，留空默认为localhost
+        'PORT': '3306', #你的数据库端口
     }
 }
 
@@ -161,4 +170,118 @@ REST_FRAMEWORK = {
     'LANGUAGE_CODE': 'zh-hans',
     # 'LANGUAGE_CODE': 'zh-hans',
     'NON_FIELD_ERRORS_KEY': 'detail',
+}
+############################################
+#初始化系统默认logs 只当系统是linux的时候.才进行相关的日志初始化工作
+LOGGING_stamdard_format = '[%(asctime)s][task_id:%(name)s][%(filename)s:%(lineno)d] [%(levelname)s]- %(message)s'
+LOGGING_simple_format = '[%(filename)s:%(lineno)d][%(levelname)s] %(message)s'
+LOGGING_request_format = '[%(asctime)s][%(status_code)s][%(request)s] %(message)s'
+REST_SESSION_LOGIN = False
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,# this fixes the problem
+    'formatters': {
+        'standard': {#详细
+            'format': LOGGING_stamdard_format
+        },
+        'simple': {#简单
+            'format': LOGGING_simple_format
+        },
+        'request': {#简单
+            'format': LOGGING_request_format
+        },
+    },
+    'filters': {},
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'console':{
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',#打印到前台
+            'formatter': 'simple'
+        },
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','all.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'request': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','request.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'request',
+        },
+        'db': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','db.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'scprits_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','scprits.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'web_api': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','web_api.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'simple',
+        },
+        'web_manage': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR+'/logs/','web_manage.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*10, # 10 MB
+            'backupCount': 5,
+            'formatter':'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default','console'],
+            'propagate': False,
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['request','default'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'scripts': { # 脚本专用日志
+            'handlers': ['scprits_handler','default','console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'web_api': { # 脚本专用日志
+            'handlers': ['web_api','default','console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'core': { # 脚本专用日志
+            'handlers': ['web_manage','default','console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'django.db.backends':{
+            'handlers': ['db'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
 }

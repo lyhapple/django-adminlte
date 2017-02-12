@@ -62,16 +62,28 @@ var CommonListPageVue = Vue.extend({
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function () {
-                $.AdminLTE.ajaxPost(
+                $.AdminLTE.ajaxPost_return(
                     delUrl,
                     {'pk': ids.toString()},
                     function (resp) {
-                        swal({
-                            title: "删除成功!",
-                            type: "success"
-                        }, function () {
-                            self.loadData({});
-                        });
+                        console.info(resp);
+                        //callback = $.parseJSON(resp);
+                        callback = resp;
+                        if(!callback.status){
+                            swal({
+                                title: "删除失败!"+callback.message,
+                                type: "error"
+                            }, function () {
+                                self.loadData({});                                                                          //整体执行成功后.重新载入刷新当前页面
+                            });
+                        }else{
+                            swal({
+                                title: "删除成功!",
+                                type: "success"
+                            }, function () {
+                                self.loadData({});                                                                          //整体执行成功后.重新载入刷新当前页面
+                            });
+                        }
                     }
                 );
             });

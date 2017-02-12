@@ -68,3 +68,6 @@ docs/_build/
 target/
 
 
+.DS_Store
+2015*.json
+favicon.ico

@@ -115,6 +115,9 @@ class SiteMailSend(AbstractSiteMail):
 
 
 class SiteMailReceive(AbstractSiteMail):
+    """
+    收件箱
+    """
     receive = models.ForeignKey(
         User,
         related_name='+',
