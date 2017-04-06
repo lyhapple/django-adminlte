@@ -18,15 +18,15 @@ env.hosts = ['user@host']
 # your host password
 env.password = ''
 
-DEPLOY_ROOT = '/data/deploy'
+DEPLOY_ROOT = '/var/www'
 
-LOGS_ROOT = '%s/logs' % DEPLOY_ROOT
+LOGS_ROOT = '/var/log'
 
 NGINX_LOGS_ROOT = '%s/nginx' % LOGS_ROOT
 
-VIRTUAL_ROOT = '%s/console' % DEPLOY_ROOT
+VIRTUAL_ROOT = '%s/lteadmin_env' % DEPLOY_ROOT
 
-WEB_ROOT = '%s/web' % VIRTUAL_ROOT
+WEB_ROOT = '%s/lteadmin' % VIRTUAL_ROOT
 
 ACTIVATE = 'source %s/bin/activate' % VIRTUAL_ROOT
 
@@ -41,7 +41,7 @@ def init_server():
 
 def init_env():
     with cd(DEPLOY_ROOT):
-        sudo('virtualenv console')
+        sudo('virtualenv lteadmin_env')
     sudo('mkdir -p %s' % WEB_ROOT)
     sudo('mkdir -p %s' % LOGS_ROOT)
     sudo('mkdir -p %s' % NGINX_LOGS_ROOT)
@@ -49,8 +49,8 @@ def init_env():
 
 def clone_data():
     with cd(WEB_ROOT):
-        sudo('git clone %s web' % PROJECT_GIT)
-        sudo('cd web')
+        sudo('git clone %s lteadmin' % PROJECT_GIT)
+        sudo('cd lteadmin')
         sudo('git checkout develop')
 
 
@@ -68,7 +68,7 @@ def init_console():
             sudo('python manage.py loaddata conf/fixture_data.json')
             sudo('python manage.py collectstatic --noinput')
             # todo:lyh:modify /etc/nginx/nginx.conf
-            sudo('cp conf/adminlte.conf /etc/nginx/conf.d/')
+            sudo('cp conf/lteadmin.conf /etc/nginx/conf.d/')
 
 
 def update():
